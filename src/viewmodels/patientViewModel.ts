@@ -58,10 +58,7 @@ export class PatientViewModel {
   }
 
   static async addNote(id: string, note: INote): Promise<void> {
-    const patient = await this.getById(id);
-    if (!patient) throw new Error('Patient not found');
-    const notes = [note, ...patient.notes];
-    await this.update(id, { notes });
+    await this.update(id, { notes: FieldValue.arrayUnion(note) });
   }
 
   static async addMedication(id: string, med: IMedication): Promise<void> {
